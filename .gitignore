@@ -76,3 +76,7 @@ __pycache__/
 
 # Stuff from 3.x builds
 /share/sound/MuseScore_General*
+
+# AI generated docs
+ai_docs/
+.cursor/
