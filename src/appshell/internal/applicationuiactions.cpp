@@ -40,6 +40,7 @@ static const ActionCode FULL_SCREEN_CODE("fullscreen");
 static const ActionCode TOGGLE_NAVIGATOR_ACTION_CODE("toggle-navigator");
 static const ActionCode TOGGLE_BRAILLE_ACTION_CODE("toggle-braille-panel");
 static const ActionCode TOGGLE_PERCUSSION_PANEL_ACTION_CODE("toggle-percussion-panel");
+static const ActionCode TOGGLE_AI_PANEL_ACTION_CODE("toggle-ai-panel");
 
 const UiActionList ApplicationUiActions::m_actions = {
     UiAction("quit",
@@ -202,6 +203,13 @@ const UiActionList ApplicationUiActions::m_actions = {
              TranslatableString("action", "Show/hide percussion panel"),
              Checkable::Yes
              ),
+    UiAction(TOGGLE_AI_PANEL_ACTION_CODE,
+             mu::context::UiCtxProjectOpened,
+             mu::context::CTX_ANY,
+             TranslatableString("action", "&AI Panel"),
+             TranslatableString("action", "Show/hide AI Panel"),
+             Checkable::Yes
+             ),
     UiAction("toggle-scorecmp-tool",
              mu::context::UiCtxProjectOpened,
              mu::context::CTX_NOTATION_OPENED,
@@ -345,6 +353,7 @@ const QMap<ActionCode, DockName>& ApplicationUiActions::toggleDockActions()
         { "toggle-mixer", MIXER_PANEL_NAME },
         { "toggle-piano-keyboard", PIANO_KEYBOARD_PANEL_NAME },
         { TOGGLE_PERCUSSION_PANEL_ACTION_CODE, PERCUSSION_PANEL_NAME },
+        { TOGGLE_AI_PANEL_ACTION_CODE, AI_PANEL_NAME },
 
         { "toggle-statusbar", NOTATION_STATUSBAR_NAME },
     };

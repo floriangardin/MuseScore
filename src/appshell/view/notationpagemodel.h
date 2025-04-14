@@ -74,6 +74,8 @@ public:
     Q_INVOKABLE QString drumsetPanelName() const;
     Q_INVOKABLE QString percussionPanelName() const;
 
+    Q_INVOKABLE QString aiPanelName() const;
+
     Q_INVOKABLE QString statusBarName() const;
 
 signals:

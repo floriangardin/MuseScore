@@ -149,6 +149,11 @@ QString NotationPageModel::percussionPanelName() const
     return PERCUSSION_PANEL_NAME;
 }
 
+QString NotationPageModel::aiPanelName() const
+{
+    return AI_PANEL_NAME;
+}
+
 QString NotationPageModel::statusBarName() const
 {
     return NOTATION_STATUSBAR_NAME;

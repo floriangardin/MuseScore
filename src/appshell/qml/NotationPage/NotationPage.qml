@@ -578,6 +578,35 @@ DockPage {
                     }
                 }
             }
+        },
+
+        // Add the AI Panel DockPanel here
+        DockPanel {
+            id: aiPanel
+
+            objectName: root.pageModel.aiPanelName() // Use the new C++ function
+            title: qsTrc("appshell", "AI Panel")
+
+            height: 200 // Start with a reasonable height
+            minimumHeight: root.horizontalPanelMinHeight
+            maximumHeight: root.horizontalPanelMaxHeight
+
+            groupName: root.horizontalPanelsGroup // Group with Mixer, Piano, etc.
+
+            //! NOTE: hidden by default
+            visible: false
+
+            location: Location.Bottom // Default location
+
+            dropDestinations: root.horizontalPanelDropDestinations
+
+            navigationSection: root.navigationPanelSec(aiPanel.location)
+
+            // Instantiate your QML component
+            AIPanel {
+                navigationSection: aiPanel.navigationSection
+                contentNavigationPanelOrderStart: aiPanel.contentNavigationPanelOrderStart
+            }
         }
     ]
 
