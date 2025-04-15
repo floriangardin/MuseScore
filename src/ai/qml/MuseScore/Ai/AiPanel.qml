@@ -13,33 +13,61 @@ Item {
 
     AiPanelModel {
         id: aiPanelModel
+        
+        onRequestInProgress: function(inProgress) {
+            loadingIndicator.running = inProgress
+            sendButton.enabled = !inProgress
+            inputField.enabled = !inProgress
+        }
+        
+        onResponseReceived: function(response) {
+            responseArea.text = response
+        }
     }
 
     ColumnLayout {
         anchors.fill: parent
         anchors.margins: 10 // Add some margins
 
+        Text {
+            text: qsTr("Enter the path to a MusicXML file:")
+            Layout.fillWidth: true
+        }
+
         TextField {
             id: inputField
             Layout.fillWidth: true
-            placeholderText: qsTr("Enter your prompt here...")
+            placeholderText: qsTr("Path to MusicXML file...")
+        }
+
+        BusyIndicator {
+            id: loadingIndicator
+            running: false
+            Layout.alignment: Qt.AlignHCenter
+            visible: running
         }
 
         Text {
             id: responseArea
             Layout.fillWidth: true
             Layout.fillHeight: true
-            text: qsTr("AI response...")
+            wrapMode: Text.WordWrap
+            text: qsTr("Status will appear here...")
         }
 
-        FlatButton {
-            id: sendButton
-            accentButton: true
-            Layout.alignment: Qt.AlignRight // Align button to the right
-            text: qsTr("Send")
-            onClicked: {
-                aiPanelModel.sendPrompt(inputField.text) // Call the C++ model
-                inputField.text = "" // Clear the input field
+        RowLayout {
+            Layout.fillWidth: true
+            
+            Item { Layout.fillWidth: true } // Spacer
+            
+            FlatButton {
+                id: sendButton
+                accentButton: true
+                text: qsTr("Load MusicXML")
+                onClicked: {
+                    responseArea.text = qsTr("Loading...")
+                    aiPanelModel.sendPrompt(inputField.text) // Call the C++ model
+                }
             }
         }
     }
