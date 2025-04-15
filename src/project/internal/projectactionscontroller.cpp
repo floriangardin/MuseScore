@@ -66,6 +66,8 @@ void ProjectActionsController::init()
     dispatcher()->reg(this, "file-new", this, &ProjectActionsController::newProject);
     dispatcher()->reg(this, "file-open", this, &ProjectActionsController::openProject);
 
+    dispatcher()->reg(this, "replace-current-project", this, &ProjectActionsController::replaceCurrentProject);
+
     dispatcher()->reg(this, "file-close", [this]() {
         auto anyInstanceWithoutProject = multiInstancesProvider()->isHasAppInstanceWithoutProject();
         closeOpenedProject(anyInstanceWithoutProject);
@@ -129,6 +131,7 @@ bool ProjectActionsController::canReceiveAction(const ActionCode& code) const
             "file-import-pdf",
             "continue-last-session",
             "clear-recent",
+            "replace-current-project",
         };
 
         return muse::contains(DONT_REQUIRE_OPEN_PROJECT, code);
@@ -1899,4 +1902,68 @@ QUrl ProjectActionsController::scoreManagerUrl() const
 void ProjectActionsController::openProjectProperties()
 {
     interactive()->open(PROJECT_PROPERTIES_URI);
+}
+
+void ProjectActionsController::replaceCurrentProject(const muse::actions::ActionData& args)
+{
+    if (m_isProjectProcessing || m_isProjectDownloading) {
+        return;
+    }
+    m_isProjectProcessing = true;
+
+    DEFER {
+        m_isProjectProcessing = false;
+    };
+
+    QUrl url = !args.empty() ? args.arg<QUrl>(0) : QUrl();
+    QString displayNameOverride = args.count() >= 2 ? args.arg<QString>(1) : QString();
+
+    if (url.isEmpty()) {
+        return;
+    }
+
+    if (!url.isLocalFile()) {
+        LOGE() << "Only local files are supported for replace-current-project action";
+        return;
+    }
+
+    muse::io::path_t filePath = muse::io::path_t(url.toLocalFile());
+    
+    // Check if we have an existing project
+    INotationProjectPtr currentProject = globalContext()->currentProject();
+    if (currentProject) {
+        // First reset playback if it's playing
+        if (playbackController()->isPlaying()) {
+            playbackController()->reset();
+        }
+        
+        // Force close the current project without asking to save
+        interactive()->closeAllDialogs();
+        globalContext()->setCurrentProject(nullptr);
+    }
+    
+    // Load the project
+    RetVal<INotationProjectPtr> rv = loadProject(filePath);
+    if (!rv.ret) {
+        LOGE() << "Failed to load project: " << rv.ret.toString();
+        return;
+    }
+
+    INotationProjectPtr project = rv.val;
+    
+    // Set custom display name if provided
+    if (!displayNameOverride.isEmpty()) {
+        CloudProjectInfo info = project->cloudInfo();
+        info.name = displayNameOverride;
+        project->setCloudInfo(info);
+    }
+    
+    // Set as current project
+    globalContext()->setCurrentProject(project);
+    
+    // Add to recent files
+    recentFilesController()->prependRecentFile(makeRecentFile(project));
+
+    // Finish opening the project
+    doFinishOpenProject();
 }

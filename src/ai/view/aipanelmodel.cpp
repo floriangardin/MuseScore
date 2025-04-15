@@ -32,6 +32,7 @@
 #include "engraving/dom/masterscore.h"
 #include "engraving/compat/scoreaccess.h"
 #include "project/types/projecttypes.h"
+#include "actions/actiontypes.h"
 #include "log.h"
 
 using namespace mu::ai;
@@ -89,21 +90,11 @@ void AiPanelModel::loadMusicXMLToScore(const QByteArray& musicXmlData)
         tempFile.write(musicXmlData);
         tempFile.close();
         
-        // Create a new project instead of modifying the existing one
-        // This avoids mutex lock issues when a project is already loaded
-        mu::project::INotationProjectPtr newProject = projectCreator()->newProject(iocContext());
-        if (!newProject) {
-            throw std::runtime_error("Failed to create new project");
-        }
-        
-        // Load the MusicXML file into the new project
-        muse::Ret ret = newProject->load(muse::io::path_t(tempFilePath), "", false, "musicxml");
-        if (!ret) {
-            throw std::runtime_error(ret.toString());
-        }
-        
-        // Set as current project
-        //globalContext()->setCurrentProject(newProject);
+        // Use action dispatcher to open the project and replace any existing one
+        dispatcher()->dispatch("replace-current-project", muse::actions::ActionData::make_arg2<QUrl, QString>(
+            QUrl::fromLocalFile(tempFilePath), 
+            "AI Generated Score"
+        ));
         
         emit requestInProgress(false);
         emit responseReceived("MusicXML successfully loaded");

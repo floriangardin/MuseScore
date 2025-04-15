@@ -35,6 +35,7 @@
 #include "notation/inotation.h"
 #include "project/inotationproject.h"
 #include "project/iprojectcreator.h"
+#include "actions/iactionsdispatcher.h"
 
 class QUrl;
 
@@ -50,6 +51,7 @@ class AiPanelModel : public QObject, public muse::Injectable
     Inject<notation::INotationCreator> notationCreator = { this };
     Inject<project::INotationReadersRegister> notationReaders = { this };
     Inject<project::IProjectCreator> projectCreator = { this };
+    Inject<muse::actions::IActionsDispatcher> dispatcher = { this };
 
 public:
     explicit AiPanelModel(QObject* parent = nullptr);

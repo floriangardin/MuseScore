@@ -120,6 +120,9 @@ private:
     void downloadAndOpenCloudProject(int scoreId, const QString& hash = QString(), const QString& secret = QString(), bool isOwner = true);
     muse::Ret openMuseScoreUrl(const QUrl& url);
     muse::Ret openScoreFromMuseScoreCom(const QUrl& url);
+    
+    // Load a project and replace the current one
+    void replaceCurrentProject(const muse::actions::ActionData& args);
 
     bool checkCanIgnoreError(const muse::Ret& ret, const muse::io::path_t& filepath);
     bool askIfUserAgreesToOpenProjectWithIncompatibleVersion(const std::string& errorText);
