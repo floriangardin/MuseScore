@@ -199,6 +199,10 @@
 #include "wasmtest/wasmtestmodule.h"
 #endif
 
+#ifdef MUE_BUILD_AI_MODULE
+#include "ai/aimodule.h"
+#endif
+
 using namespace muse;
 using namespace mu::app;
 
@@ -263,6 +267,9 @@ std::shared_ptr<muse::IApplication> AppFactory::newGuiApp(const CmdOptions& opti
 #ifdef MUE_BUILD_APPSHELL_MODULE
     app->addModule(new mu::appshell::AppShellModule());
 #endif
+#ifdef MUE_BUILD_AI_MODULE
+    app->addModule(new mu::ai::AiModule());
+#endif
 
 #ifdef MUSE_MODULE_AUTOBOT
     app->addModule(new muse::autobot::AutobotModule());
@@ -321,6 +328,8 @@ std::shared_ptr<muse::IApplication> AppFactory::newGuiApp(const CmdOptions& opti
 #ifdef Q_OS_WASM
     app->addModule(new mu::wasmtest::WasmTestModule());
 #endif
+
+    // Register AI module
 
     return app;
 }

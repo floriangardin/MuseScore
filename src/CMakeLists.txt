@@ -68,6 +68,10 @@ if (MUE_BUILD_PLAYBACK_MODULE)
     add_subdirectory(playback)
 endif()
 
+if (MUE_BUILD_AI_MODULE)
+    add_subdirectory(ai)
+endif()
+
 add_subdirectory(print)
 
 if (MUE_BUILD_PROJECT_MODULE)

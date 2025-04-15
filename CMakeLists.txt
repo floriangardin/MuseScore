@@ -81,6 +81,7 @@ option(MUE_BUILD_PLAYBACK_MODULE "Build playback module" ON)
 option(MUE_BUILD_PLAYBACK_TESTS "Build playback tests" ON)
 option(MUE_BUILD_PROJECT_MODULE "Build project module" ON)
 option(MUE_BUILD_PROJECT_TESTS "Build project tests" ON)
+option(MUE_BUILD_AI_MODULE "Build ai module" ON)
 
 # === Setup ===
 option(MUE_DOWNLOAD_SOUNDFONT "Download the latest soundfont version as part of the build process" ON)

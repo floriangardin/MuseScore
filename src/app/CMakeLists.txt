@@ -219,6 +219,10 @@ if (MUSE_MODULE_MUSESAMPLER)
     list(APPEND LINK_LIB muse::musesampler)
 endif()
 
+if (MUE_BUILD_AI_MODULE)
+    list(APPEND LINK_LIB ai)
+endif()
+
 set (MSCORE_APPEND_SRC)
 
 if (OS_IS_WIN)

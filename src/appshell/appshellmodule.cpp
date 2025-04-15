@@ -62,7 +62,6 @@
 #include "view/framelesswindow/framelesswindowmodel.h"
 #include "view/publish/publishtoolbarmodel.h"
 #include "view/internal/maintoolbarmodel.h"
-#include "view/aipromptpanelmodel.h"
 
 #ifdef Q_OS_MAC
 #include "view/appmenumodel.h"
@@ -77,7 +76,6 @@ using namespace muse;
 using namespace muse::modularity;
 using namespace muse::ui;
 using namespace muse::dock;
-using namespace muse::app;
 
 static void appshell_init_qrc()
 {
@@ -176,10 +174,8 @@ void AppShellModule::registerUiTypes()
     qmlRegisterType<FramelessWindowModel>("MuseScore.AppShell", 1, 0, "FramelessWindowModel");
     qmlRegisterType<PublishToolBarModel>("MuseScore.AppShell", 1, 0, "PublishToolBarModel");
     qmlRegisterType<MainToolBarModel>("MuseScore.AppShell", 1, 0, "MainToolBarModel");
-    qmlRegisterType<AiPromptPanelModel>("MuseScore.AppShell", 1, 0, "AiPromptPanelModel");
 
-    // Register the AIPanel QML file as a type within the AppShell module
-    qmlRegisterType(QUrl("qrc:/qml/AIPanel.qml"), "MuseScore.AppShell", 1, 0, "AIPanel");
+
 }
 
 void AppShellModule::onPreInit(const IApplication::RunMode& mode)

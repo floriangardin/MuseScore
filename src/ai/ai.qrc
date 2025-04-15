@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/AIPanel.qml</file> 
+    </qresource>
+</RCC>
