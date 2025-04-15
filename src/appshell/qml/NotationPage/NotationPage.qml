@@ -33,6 +33,7 @@ import MuseScore.Palette 1.0
 import MuseScore.Inspector 1.0
 import MuseScore.InstrumentsScene 1.0
 import MuseScore.Playback 1.0
+import MuseScore.Ai 1.0
 
 DockPage {
     id: root
@@ -603,7 +604,7 @@ DockPage {
             navigationSection: root.navigationPanelSec(aiPanel.location)
 
             // Instantiate your QML component
-            AIPanel {
+            AiPanel {
                 navigationSection: aiPanel.navigationSection
                 contentNavigationPanelOrderStart: aiPanel.contentNavigationPanelOrderStart
             }

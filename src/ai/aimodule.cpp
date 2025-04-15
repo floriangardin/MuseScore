@@ -32,7 +32,7 @@
 #include "internal/aicontroller.h"
 #include "internal/aiuiactions.h"
 #include "internal/aiconfiguration.h"
-
+#include "view/aipanelmodel.h"
 
 using namespace mu::ai;
 using namespace muse;
@@ -57,6 +57,7 @@ void AiModule::registerExports()
     m_configuration = std::make_shared<AiConfiguration>();
     m_aiController = std::make_shared<AiController>();
     m_aiUiActions = std::make_shared<AiUiActions>(m_aiController);
+    m_aiPanelModel = std::make_shared<AiPanelModel>();
 
     ioc()->registerExport<IAiController>(moduleName(), m_aiController);
     ioc()->registerExport<IAiConfiguration>(moduleName(), m_configuration);
@@ -78,7 +79,7 @@ void AiModule::registerResources()
 void AiModule::registerUiTypes()
 {
     ioc()->resolve<IUiEngine>(moduleName())->addSourceImportPath(ai_QML_IMPORT);
-    qmlRegisterType(QUrl("qrc:/qml/AIPanel.qml"), "MuseScore.AppShell", 1, 0, "AIPanel");
+    qmlRegisterType<AiPanelModel>("MuseScore.Ai", 1, 0, "AiPanelModel");
 }
 
 void AiModule::onInit(const IApplication::RunMode& mode)

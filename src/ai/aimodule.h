@@ -30,6 +30,7 @@ namespace mu::ai {
 class AiConfiguration;
 class AiController;
 class AiUiActions;
+class AiPanelModel;
 class AiModule : public muse::modularity::IModuleSetup
 {
 public:
@@ -47,6 +48,7 @@ private:
     std::shared_ptr<AiConfiguration> m_configuration;
     std::shared_ptr<AiController> m_aiController;
     std::shared_ptr<AiUiActions> m_aiUiActions;
+    std::shared_ptr<AiPanelModel> m_aiPanelModel;
 };
 }
 

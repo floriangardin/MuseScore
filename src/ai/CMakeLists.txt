@@ -40,8 +40,8 @@ set(MODULE_SRC
     ${CMAKE_CURRENT_LIST_DIR}/internal/aiconfiguration.h
 
     # View
-    # ${CMAKE_CURRENT_LIST_DIR}/view/aipanel.cpp
-    # ${CMAKE_CURRENT_LIST_DIR}/view/aipanel.h
+    ${CMAKE_CURRENT_LIST_DIR}/view/aipanelmodel.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/view/aipanelmodel.h
 
     )
 

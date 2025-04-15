@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>qml/AIPanel.qml</file> 
+        <file>qml/MuseScore/Ai/qmldir</file>
+        <file>qml/MuseScore/Ai/AiPanel.qml</file> 
     </qresource>
 </RCC>
