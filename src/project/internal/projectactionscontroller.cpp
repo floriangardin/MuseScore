@@ -1931,8 +1931,8 @@ void ProjectActionsController::replaceCurrentProject(const muse::actions::Action
     
     // Check if we have an existing project
     INotationProjectPtr currentProject = globalContext()->currentProject();
-    QString currentProjectName = QString();
-    muse::io::path_t currentProjectPath = muse::io::path_t();
+    QString currentProjectName;
+    muse::io::path_t currentProjectPath;
     if (currentProject) {
         currentProjectName = currentProject->displayName();
         currentProjectPath = currentProject->path();
@@ -1972,6 +1972,4 @@ void ProjectActionsController::replaceCurrentProject(const muse::actions::Action
     // Add to recent files
     recentFilesController()->prependRecentFile(makeRecentFile(project));
 
-    // Finish opening the project
-    //doFinishOpenProject();
 }
