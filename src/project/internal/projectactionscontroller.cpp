@@ -1931,7 +1931,11 @@ void ProjectActionsController::replaceCurrentProject(const muse::actions::Action
     
     // Check if we have an existing project
     INotationProjectPtr currentProject = globalContext()->currentProject();
+    QString currentProjectName = QString();
+    muse::io::path_t currentProjectPath = muse::io::path_t();
     if (currentProject) {
+        currentProjectName = currentProject->displayName();
+        currentProjectPath = currentProject->path();
         // First reset playback if it's playing
         if (playbackController()->isPlaying()) {
             playbackController()->reset();
@@ -1952,10 +1956,14 @@ void ProjectActionsController::replaceCurrentProject(const muse::actions::Action
     INotationProjectPtr project = rv.val;
     
     // Set custom display name if provided
-    if (!displayNameOverride.isEmpty()) {
-        CloudProjectInfo info = project->cloudInfo();
-        info.name = displayNameOverride;
-        project->setCloudInfo(info);
+    CloudProjectInfo info = project->cloudInfo();
+    if (!currentProjectName.isEmpty()) {
+        info.name = currentProjectName;
+    }
+    project->setCloudInfo(info);
+    // Set path to the current project path
+    if (!currentProjectPath.empty()) {
+        project->setPath(currentProjectPath);
     }
     
     // Set as current project
@@ -1965,5 +1973,5 @@ void ProjectActionsController::replaceCurrentProject(const muse::actions::Action
     recentFilesController()->prependRecentFile(makeRecentFile(project));
 
     // Finish opening the project
-    doFinishOpenProject();
+    //doFinishOpenProject();
 }
